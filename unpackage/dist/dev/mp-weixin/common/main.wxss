@@ -1,0 +1,255 @@
+@charset "UTF-8";
+/* 页面左右间距 */
+/* 文字尺寸 */
+/*文字颜色*/
+/* 边框颜色 */
+/* 图片加载中颜色 */
+/* 行为相关颜色 */
+/*
+	以下公用样式为简易替代版,不建议使用
+*/
+@font-face {
+  font-family: yticon;
+  font-weight: normal;
+  font-style: normal;
+  src: url("https://at.alicdn.com/t/font_1078604_5s29lo1n4i6.ttf") format("truetype");
+}
+view,
+scroll-view,
+swiper,
+swiper-item,
+cover-view,
+cover-image,
+icon,
+text,
+rich-text,
+._progress,
+._button,
+checkbox,
+._form,
+._input,
+._label,
+radio,
+slider,
+switch,
+._textarea,
+navigator,
+._audio,
+camera,
+image,
+._video {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+/* 骨架屏替代方案 */
+.Skeleton {
+  background: #f3f3f3;
+  padding: 20rpx 0;
+  border-radius: 8rpx;
+}
+/* 图片载入替代方案 */
+.image-wrapper {
+  font-size: 0;
+  background: #f3f3f3;
+  border-radius: 4px;
+}
+.image-wrapper image {
+    width: 100%;
+    height: 100%;
+    -webkit-transition: .6s;
+    -o-transition: .6s;
+    transition: .6s;
+    opacity: 0;
+}
+.image-wrapper image.loaded {
+      opacity: 1;
+}
+.clamp {
+  overflow: hidden;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
+  white-space: nowrap;
+  display: block;
+}
+/*边框*/
+.b-b:after,
+.b-t:after {
+  position: absolute;
+  z-index: 3;
+  left: 0;
+  right: 0;
+  height: 0;
+  content: '';
+  -webkit-transform: scaleY(0.5);
+      -ms-transform: scaleY(0.5);
+          transform: scaleY(0.5);
+  border-bottom: 1px solid #E4E7ED;
+}
+.b-b:after {
+  bottom: 0;
+}
+.b-t:after {
+  top: 0;
+}
+/* button样式改写 */
+uni-button,
+._button {
+  height: 80rpx;
+  line-height: 80rpx;
+  font-size: 34rpx;
+  font-weight: normal;
+}
+uni-button.no-border:before, uni-button.no-border:after, ._button.no-border:before, ._button.no-border:after {
+    border: 0;
+}
+uni-button[type=default],
+._button[type=default] {
+  color: #303133;
+}
+/* input 样式 */
+.input-placeholder {
+  color: #999999;
+}
+.yticon {
+  font-family: "yticon" !important;
+  font-size: 16px;
+  font-style: normal;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+.icon-shezhi1:before {
+  content: "\E61D";
+}
+.icon-paizhao:before {
+  content: "\E620";
+}
+.icon-lishijilu:before {
+  content: "\E6B9";
+}
+.icon-iconfontweixin:before {
+  content: "\E611";
+}
+.icon-shang:before {
+  content: "\E624";
+}
+.icon-shouye:before {
+  content: "\E626";
+}
+.icon-shanchu4:before {
+  content: "\E622";
+}
+.icon-xiaoxi:before {
+  content: "\E618";
+}
+.icon-jiantour-copy:before {
+  content: "\E600";
+}
+.icon-fenxiang2:before {
+  content: "\E61E";
+}
+.icon-pingjia:before {
+  content: "\E67B";
+}
+.icon-daifukuan:before {
+  content: "\E68F";
+}
+.icon-pinglun-copy:before {
+  content: "\E612";
+}
+.icon-shoucang:before {
+  content: "\E645";
+}
+.icon-xuanzhong2:before {
+  content: "\E62F";
+}
+.icon-icon-test:before {
+  content: "\E60C";
+}
+.icon-zuoshang:before {
+  content: "\E613";
+}
+.icon-jia2:before {
+  content: "\E60A";
+}
+.icon-sousuo:before {
+  content: "\E7CE";
+}
+.icon-arrow-fine-up:before {
+  content: "\E601";
+}
+.icon-xiatubiao--copy:before {
+  content: "\E608";
+}
+.icon-shoucang_xuanzhongzhuangtai:before {
+  content: "\E6A9";
+}
+.icon-jia1:before {
+  content: "\E61C";
+}
+.icon-arrow-left-bottom:before {
+  content: "\E602";
+}
+.icon-arrow-right-bottom:before {
+  content: "\E603";
+}
+.icon-arrow-left-top:before {
+  content: "\E604";
+}
+.icon-icon--:before {
+  content: "\E744";
+}
+.icon-zuojiantou-up:before {
+  content: "\E605";
+}
+.icon-xia:before {
+  content: "\E62D";
+}
+.icon--jianhao:before {
+  content: "\E60B";
+}
+.icon-Group-:before {
+  content: "\E688";
+}
+.icon-you:before {
+  content: "\E606";
+}
+.icon-forward:before {
+  content: "\E607";
+}
+.icon-bangzhu:before {
+  content: "\E679";
+}
+.icon-share:before {
+  content: "\E656";
+}
+.icon-fork:before {
+  content: "\E61B";
+}
+.icon-iLinkapp-:before {
+  content: "\E654";
+}
+.icon-saomiao:before {
+  content: "\E60D";
+}
+.icon-shezhi:before {
+  content: "\E60F";
+}
+.icon-shouhoutuikuan:before {
+  content: "\E631";
+}
+.icon-gouwuche:before {
+  content: "\E609";
+}
+.icon-dizhi:before {
+  content: "\E614";
+}
+.icon-zuo:before {
+  content: "\E63C";
+}
+.icon-shoucang2:before {
+  content: "\E62E";
+}
+.icon-yishouhuo:before {
+  content: "\E71A";
+}
+
