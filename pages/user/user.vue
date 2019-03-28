@@ -54,7 +54,7 @@
 			<!-- 订单 -->
 			<view class="order-section">
 				<view class="order-item">
-					<text class="yticon icon-shouye"></text>
+					<text class="yticon icon-shouye" @click="toOrder"></text>
 					<text>全部订单</text>
 				</view>
 				<view class="order-item">
@@ -140,6 +140,9 @@
 					url
 				})  
 			}, 
+			toOrder(){
+				this.navTo('/pages/order/order');
+			},
 			/**
 			 *  会员卡下拉和回弹
 			 *  1.关闭bounce避免ios端下拉冲突

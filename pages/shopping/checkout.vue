@@ -176,9 +176,13 @@ export default {
       }
       // 请求后台，更新数据库的order表，清空购物车表等
       const res = await api.OrderSubmit({ memberReceiveAddressId: this.addressId, couponId: null });
-      // console.log('提交订单,请求结果', res);
+      console.log('提交订单,请求结果', res);
       // 数据库操作成功，再调用wx的支付服务
-      if (res.errno === 200) {
+      if (res.code === 200) {
+		  //跳转到订单详情
+		   uni.navigateTo({
+		    url: '../shopping/address'
+		  })
 //         const orderId = res.data.orderInfo.id;
 //         pay.payOrder(parseInt(orderId)).then(res => {
 //           wx.redirectTo({

@@ -73,7 +73,6 @@
 
 <script>
 import api from '@/utils/api'
-import wx from 'wx'
 
 export default {
   data () {
@@ -91,7 +90,7 @@ export default {
     async getOrderList () {
       const res = await api.getOrderList();
       // console.log('我的订单,请求结果', res);
-      if (res.errno === 0) {
+      if (res.code === 200) {
         this.orderList = res.data.data;
       }
     },
@@ -100,17 +99,9 @@ export default {
       let currentOrder = this.orderList[event.target.dataset.orderIndex];
       // 给pay页面传两个参数orderId,actualPrice
       // console.log('订单信息', currentOrder);
-      wx.redirectTo({
-        url: '../pay/pay?orderId=' + currentOrder.id + '&actualPrice=' + currentOrder.actual_price
-      })
-    }
-  },
-  // 原生的分享功能
-  onShareAppMessage: function () {
-    return {
-      title: 'xbyjShop',
-      desc: '仿网易严选小程序商城',
-      path: '/pages/ucenter/order'
+//       wx.redirectTo({
+//         url: '../pay/pay?orderId=' + currentOrder.id + '&actualPrice=' + currentOrder.actual_price
+//       })
     }
   }
 }

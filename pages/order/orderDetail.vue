@@ -60,7 +60,6 @@
 
 <script>
 import api from '@/utils/api'
-import wx from 'wx'
 
 export default {
   data () {
@@ -84,7 +83,7 @@ export default {
     async getOrderDetail () {
       const res = await api.getOrderDetail({ orderId: this.orderId });
       // console.log('订单详情,请求结果', res);
-      if (res.errno === 0) {
+      if (res.code === 200) {
         this.orderInfo = res.data.orderInfo;
         this.orderGoods = res.data.orderGoods;
         this.handleOption = res.data.handleOption;
@@ -105,40 +104,33 @@ export default {
       let that = this;
       const res = await api.PayPrepayIdFunc({ orderId: this.orderId || 15 });
       // console.log('订单详情页去付款,请求结果', res);
-      if (res.errno === 0) {
+      if (res.code === 200) {
         // 原生的支付方法
-        wx.requestPayment({
-          'timeStamp': res.data.timeStamp,
-          'nonceStr': res.data.nonceStr,
-          'package': res.data.package,
-          'signType': res.data.signType,
-          'paySign': res.data.paySign,
-          'success': function (res) {
-            wx.redirectTo({
-              url: '../pay/payResult?status=1&orderId=' + that.orderId
-            })
-          },
-          'fail': function (res) {
-            wx.redirectTo({
-              url: '../pay/payResult?status=0&orderId=' + that.orderId
-            })
-          }
-        });
+//         wx.requestPayment({
+//           'timeStamp': res.data.timeStamp,
+//           'nonceStr': res.data.nonceStr,
+//           'package': res.data.package,
+//           'signType': res.data.signType,
+//           'paySign': res.data.paySign,
+//           'success': function (res) {
+//             wx.redirectTo({
+//               url: '../pay/payResult?status=1&orderId=' + that.orderId
+//             })
+//           },
+//           'fail': function (res) {
+//             wx.redirectTo({
+//               url: '../pay/payResult?status=0&orderId=' + that.orderId
+//             })
+//           }
+//         });
       } else {
-        wx.redirectTo({
-          url: '/pages/pay/payResult?status=0&orderId=' + that.orderId
-        })
+//         wx.redirectTo({
+//           url: '/pages/pay/payResult?status=0&orderId=' + that.orderId
+//         })
       }
     }
-  },
-  // 原生的分享功能
-  onShareAppMessage: function () {
-    return {
-      title: 'xbyjShop',
-      desc: '仿网易严选小程序商城',
-      path: '/pages/ucenter/orderDetail'
-    }
   }
+
 }
 </script>
 

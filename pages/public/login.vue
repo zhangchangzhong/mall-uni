@@ -24,7 +24,7 @@
 				<view class="img">
 					<image style="width:20px;height: 25px;" src="../../static/images/icon_pwd.png" />
 				</view>
-				<input :type="pwdType" :value="userpwd" @input="inputPwd" placeholder="请输入密码">
+				<input :type="pwdType" :value="password" @input="inputPwd" placeholder="请输入密码">
 				<view class="img" @tap="switchPwd">
 					<image class="img_pwd_switch" src="../../static/images/icon_pwd_switch.png" />
 				</view>
@@ -52,12 +52,12 @@
 	import {  
 	    mapMutations  
 	} from 'vuex';
-	
+	import api from '@/utils/api.js';
 	export default {
 		data() {
 			return {
 				username: '',
-				userpwd: '',
+				password: '',
 				logining: false,
 				pwdType: 'password'
 			}
@@ -68,7 +68,7 @@
 				this.username = e.target.value
 			},
 			inputPwd(e) {
-				this.userpwd = e.target.value
+				this.password = e.target.value
 			},
 			delUser() {
 				this.username = ''
@@ -78,7 +78,7 @@
 			},
 			async toLogin() {
 				this.logining = true;
-				const {username, userpwd} = this;
+				const {username, password} = this;
 				/* 数据验证模块
 				if(!this.$api.match({
 					username,
@@ -90,12 +90,12 @@
 				*/
 				const sendData = {
 					username,
-					userpwd
+					password
 				};
-				const result = await this.$api.json('userInfo');
+				const result = await api.loginByUsername(sendData);
 				console.log(result);
-				if(result.status === 1){
-					this.login(result.data);
+				if(result.code === 200){
+					this.login(result);
 					uni.navigateBack();  
 				}else{
 					this.$api.msg(result.msg);

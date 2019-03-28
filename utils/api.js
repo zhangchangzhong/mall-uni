@@ -21,6 +21,8 @@ const api = {
   // 使用util的request方法，字符串变量即可
   // 微信登录
   AuthLoginByWeixin: ApiRootUrl + 'sso/login',
+	//系统登录
+	loginByUsername : (paramObj) => request.post('sso/login',paramObj),
   // 获取微信统一下单prepay_id
   PayPrepayId: ApiRootUrl + 'pay/prepay',
   // （pay单独使用）获取微信统一下单prepay_id
