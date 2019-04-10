@@ -66,8 +66,9 @@
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">
 					<view 
-						v-for="(item, index) in hotList[0].list" :key="index"
+						v-for="(item, index) in goodsList" :key="index"
 						class="floor-item"
+						@click="navToDetailPage(item.id)"
 					>
 						<image :src="item.image" mode="aspectFill"></image>
 						<text class="title clamp">{{item.title}}</text>
@@ -90,8 +91,9 @@
 			<swiper class="g-swiper" :duration="500">
 				<swiper-item
 					class="g-swiper-item"
-					v-for="(item, index) in hotList[0].list" :key="index"
+					v-for="(item, index) in goodsList" :key="index"
 					v-if="index%2 === 0"
+					@click="navToDetailPage(item.id)"
 				>
 					<view class="g-item left">
 						<image :src="item.image" mode="aspectFill"></image>
@@ -112,11 +114,11 @@
 						            
 					</view>
 					<view class="g-item right">
-						<image :src="hotList[0].list[index+1].image" mode="aspectFill"></image>
+						<image :src="goodsList[index+1].image" mode="aspectFill"></image>
 						<view class="t-box">
-							<text class="title clamp">{{hotList[0].list[index+1].title}}</text>
+							<text class="title clamp">{{goodsList[index+1].title}}</text>
 							<view class="price-box">
-								<text class="price">￥{{hotList[0].list[index+1].price}}</text> 
+								<text class="price">￥{{goodsList[index+1].price}}</text> 
 								<text class="m-price">￥188</text> 
 							</view>
 							<view class="pro-box">
@@ -150,8 +152,9 @@
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">
 					<view 
-						v-for="(item, index) in hotList[0].list" :key="index"
+						v-for="(item, index) in goodsList" :key="index"
 						class="floor-item"
+						@click="navToDetailPage(item.id)"
 					>
 						<image :src="item.image" mode="aspectFill"></image>
 						<text class="title clamp">{{item.title}}</text>
@@ -171,8 +174,9 @@
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">
 					<view 
-						v-for="(item, index) in hotList[0].list" :key="index"
+						v-for="(item, index) in goodsList" :key="index"
 						class="floor-item"
+						@click="navToDetailPage(item.id)"
 					>
 						<image :src="item.image3" mode="aspectFill"></image>
 						<text class="title clamp">{{item.title}}</text>
@@ -192,8 +196,9 @@
 			<scroll-view class="floor-list" scroll-x>
 				<view class="scoll-wrapper">
 					<view 
-						v-for="(item, index) in hotList[0].list" :key="index"
+						v-for="(item, index) in goodsList" :key="index"
 						class="floor-item"
+						@click="navToDetailPage(item.id)"
 					>
 						<image :src="item.image2" mode="aspectFill"></image>
 						<text class="title clamp">{{item.title}}</text>
@@ -219,8 +224,9 @@
 		
 		<view class="guess-section">
 			<view 
-				v-for="(item, index) in hotList[0].list" :key="index"
+				v-for="(item, index) in goodsList" :key="index"
 				class="guess-item"
+				@click="navToDetailPage(item.id)"
 			>
 				<view class="image-wrapper">
 					<image :src="item.image" mode="aspectFill"></image>
@@ -244,7 +250,7 @@
 				swiperCurrent: 0,
 				swiperLength: 0,
 				carouselList: [],
-				hotList: [{}, {}]
+				goodsList: []
 			};
 		},
 
@@ -262,8 +268,8 @@
 				this.swiperLength = carouselList.length;
 				this.carouselList = carouselList;
 				
-				let hotList = await this.$api.json('hotList');
-				this.hotList = hotList;
+				let goodsList = await this.$api.json('goodsList');
+				this.goodsList = goodsList || [];
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
@@ -274,7 +280,8 @@
 			//详情页
 			navToDetailPage() {
 				uni.navigateTo({
-					url: '/pages/detail/detail'
+					url: '/pages/product/product'
+					//url: '/pages/detail/detail'
 				})
 			},
 		},

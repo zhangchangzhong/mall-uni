@@ -6,7 +6,8 @@ http.config.baseUrl = "http://10.122.1.77:8085/"
 http.interceptor.request = (config) => {
 		//添加通用参数
 		config.header = {
-			"Authorization": uni.getStorageSync("tokenHead")+uni.getStorageSync("token")
+			"Authorization": uni.getStorageSync("tokenHead")+uni.getStorageSync("token"),
+			'Content-Type':'application/json;charset=UTF-8'
 		}
 }
 	//设置请求结束后拦截器
@@ -17,9 +18,9 @@ http.interceptor.response = (response) => {
 
 const request = {
 
-	get(url,paramObj){
+	get(url,paramObj, options){
 		return new Promise((resolve, reject) =>{
-			http.get(url,paramObj).then((res)=>{
+			http.get(url,paramObj, options).then((res)=>{
 							const data = res.data
 							if(data.code === 200) {
 								 resolve(data)
@@ -35,9 +36,9 @@ const request = {
 			})
 		})
 	},
-	post(url,paramObj){
+	post(url,paramObj, options){
 		return new Promise((resolve, reject) =>{
-			http.post(url,paramObj).then((res)=>{
+			http.post(url,paramObj, options).then((res)=>{
 							const data = res.data
 							if(data.code === 200) {
 								 resolve(data)

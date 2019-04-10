@@ -166,7 +166,7 @@ const api = {
     baseURL: ApiRootUrl
   }),
   // 订单列表
-  getOrderList: (r) => request.get('order/list', null, {
+  getOrderList: (paramObj) => request.post('order/getUserOrderList', paramObj, {
     baseURL: ApiRootUrl
   }),
   // 订单详情

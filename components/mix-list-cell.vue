@@ -1,7 +1,7 @@
 <template>
 	<view class="content">
 		
-		<view class="yt-list-cell" :class="border" @click="eventClick" hover-class="cell-hover"  :hover-stay-time="50">
+		<view class="mix-list-cell" :class="border" @click="eventClick" hover-class="cell-hover"  :hover-stay-time="50">
 			<text
 				v-if="icon"
 				class="cell-icon yticon"
@@ -76,10 +76,10 @@
 
 <style lang='scss'>
 
-	.icon .yt-list-cell.b-b:after{
+	.icon .mix-list-cell.b-b:after{
 		left: 90upx;
 	}
-	.yt-list-cell{
+	.mix-list-cell{
 		display:flex;
 		align-items:baseline;
 		padding: 20upx $page-row-spacing;

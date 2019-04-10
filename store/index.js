@@ -8,8 +8,6 @@ const store = new Vuex.Store({
 		userInfo: {},
 		//首屏广告上次显示时间
 		splashAdvertPreTime: 0,
-
-		
 	},
 	mutations: {
 		

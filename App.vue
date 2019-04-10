@@ -16,12 +16,12 @@
 		},
 		onLaunch: function() {
 			//重置登陆状态
-			uni.getStorage({
-				key: 'userInfo',
-				success: (res) => {
-					this.login(res.data);
-				}
-			});			
+// 			uni.getStorage({
+// 				key: 'userInfo',
+// 				success: (res) => {
+// 					this.login(res.data);
+// 				}
+// 			});
 		},
 		onShow: function() {
 			console.log('App Show')
@@ -40,7 +40,7 @@
 		font-family: yticon;
 		font-weight: normal;
 		font-style: normal;
-		src: url('https://at.alicdn.com/t/font_1078604_5s29lo1n4i6.ttf') format('truetype');
+		src: url('https://at.alicdn.com/t/font_1078604_zb46p0wdmn.ttf') format('truetype');
 	}
 
 	view,
@@ -101,6 +101,10 @@
 		white-space: nowrap;
 		display: block;
 	}
+	
+	.common-hover{
+		background: #f5f5f5;
+	}
 
 	/*边框*/
 	.b-b:after,
@@ -156,16 +160,8 @@
 	}
 
 
-
-	.icon-shezhi1:before {
-	  content: "\e61d";
-	}
-	.icon-paizhao:before {
-		content: "\e620";
-	}
-
-	.icon-lishijilu:before {
-		content: "\e6b9";
+	.icon-iconfontshanchu1:before {
+		content: "\e619";
 	}
 
 	.icon-iconfontweixin:before {
@@ -220,6 +216,10 @@
 		content: "\e60c";
 	}
 
+	.icon-bianji:before {
+		content: "\e646";
+	}
+
 	.icon-zuoshang:before {
 		content: "\e613";
 	}
@@ -236,6 +236,14 @@
 		content: "\e601";
 	}
 
+	.icon-hot:before {
+		content: "\e60e";
+	}
+
+	.icon-lishijilu:before {
+		content: "\e6b9";
+	}
+
 	.icon-xiatubiao--copy:before {
 		content: "\e608";
 	}
@@ -246,6 +254,10 @@
 
 	.icon-jia1:before {
 		content: "\e61c";
+	}
+
+	.icon-bangzhu1:before {
+		content: "\e63d";
 	}
 
 	.icon-arrow-left-bottom:before {
@@ -288,12 +300,20 @@
 		content: "\e607";
 	}
 
+	.icon-tuijian:before {
+		content: "\e610";
+	}
+
 	.icon-bangzhu:before {
 		content: "\e679";
 	}
 
 	.icon-share:before {
 		content: "\e656";
+	}
+
+	.icon-shezhi1:before {
+		content: "\e61d";
 	}
 
 	.icon-fork:before {
@@ -322,6 +342,14 @@
 
 	.icon-dizhi:before {
 		content: "\e614";
+	}
+
+	.icon-xingxing:before {
+		content: "\e70b";
+	}
+
+	.icon-zuanshi:before {
+		content: "\e615";
 	}
 
 	.icon-zuo:before {

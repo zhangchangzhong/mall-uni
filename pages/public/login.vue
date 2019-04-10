@@ -58,7 +58,7 @@
 			return {
 				username: '',
 				password: '',
-				logining: false,
+				// logining: false,
 				pwdType: 'password'
 			}
 		},
@@ -77,7 +77,7 @@
 				this.pwdType = this.pwdType === 'text' ? 'password' : 'text'
 			},
 			async toLogin() {
-				this.logining = true;
+				// this.logining = true;
 				const {username, password} = this;
 				/* 数据验证模块
 				if(!this.$api.match({
@@ -99,7 +99,7 @@
 					uni.navigateBack();  
 				}else{
 					this.$api.msg(result.msg);
-					this.logining = false;
+					// this.logining = false;
 				}
 			},
 			findPwd() {

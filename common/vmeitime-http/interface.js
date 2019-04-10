@@ -33,8 +33,8 @@ export default {
 	config: {
 		baseUrl: "https://unidemo.dcloud.net.cn/",
 		header: {
-			'Content-Type':'application/json;charset=UTF-8',
-			'Content-Type':'application/x-www-form-urlencoded'
+			'Content-Type':'application/json;charset=UTF-8'
+			// 'Content-Type':'application/x-www-form-urlencoded'
 		},  
 		data: {},
 		method: "GET",
@@ -91,7 +91,6 @@ export default {
 					reject(response)
 				}
 			}
-
 			_config = Object.assign({}, this.config, options)
 			_config.requestId = new Date().getTime()
 
@@ -108,7 +107,6 @@ export default {
 					console.log("【" + _config.requestId + "】 参数：" + JSON.stringify(_config.data))
 				}
 			}
-
 			uni.request(_config);
 		});
 	},
