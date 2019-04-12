@@ -278,9 +278,10 @@
 				this.titleNViewBackground = this.carouselList[index].background;
 			},
 			//详情页
-			navToDetailPage() {
+			navToDetailPage(goodsId) {
+				let  url =  '/pages/product/product?goodsId='+28;
 				uni.navigateTo({
-					url: '/pages/product/product'
+					url:url
 					//url: '/pages/detail/detail'
 				})
 			},

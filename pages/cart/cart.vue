@@ -21,7 +21,7 @@
 						:class="{'b-b': index!==cartList.length-1}"
 					>
 						<view class="image-wrapper">
-							<image :src="item.image" 
+							<image :src="item.productPic" 
 								:class="[item.loaded]"
 								mode="aspectFill" 
 								lazy-load 
@@ -35,16 +35,13 @@
 							></view>
 						</view>
 						<view class="item-right">
-							<text class="clamp title">{{item.title}}</text>
-							<text class="attr">{{item.attr_val}}</text>
+							<text class="clamp title">{{item.productName}}</text>
+							<text class="attr">{{item.productAttr}}</text>
 							<text class="price">¥{{item.price}}</text>
 							<uni-number-box 
 								class="step"
 								:min="1" 
-								:max="item.stock"
-								:value="item.number>item.stock?item.stock:item.number"
-								:isMax="item.number>=item.stock?true:false"
-								:isMin="item.number===1"
+								:value="item.quantity"
 								:index="index"
 								@eventChange="numberChange"
 							></uni-number-box>
@@ -83,7 +80,9 @@
 	import {
 		mapState
 	} from 'vuex';
-	import uniNumberBox from '@/components/uni-number-box.vue'
+	import api from '@/utils/api';
+	import uniNumberBox from '@/components/uni-number-box.vue';
+	
 	export default {
 		components: {
 			uniNumberBox
@@ -114,13 +113,34 @@
 		methods: {
 			//请求数据
 			async loadData(){
-				let list = await this.$api.json('cartList'); 
-				let cartList = list.map(item=>{
-					item.checked = true;
-					return item;
-				});
-				this.cartList = cartList;
-				this.calcTotal();  //计算总价
+				// let list = await this.$api.json('cartList'); 
+				const res = await api.getCartList();
+				// console.log('购物车数据,请求结果', res);
+				if (res.code === 200) {
+					let cartList = res.data.map(item=>{
+				  	item.checked = true;
+					item.productAttr = this.formatProductAttr(item.productAttr);
+				  	return item;
+				  });
+				  this.cartList = cartList;
+				  this.calcTotal();  //计算总价
+				}
+
+			},
+			formatProductAttr(value){
+			  if(value==null){
+			    return '';
+			  }else{
+			    let attr = JSON.parse(value);
+			    let result='';
+			    for(let i=0;i<attr.length;i++){
+			      result+=attr[i].key;
+			      result+=":";
+			      result+=attr[i].value;
+			      result+=";";
+			    }
+			    return result;
+			  }
 			},
 			//监听image加载完成
 			onImageLoad(key, index) {
@@ -151,7 +171,7 @@
 			},
 			//数量
 			numberChange(data){
-				this.cartList[data.index].number = data.number;
+				this.cartList[data.index].quantity = data.quantity;
 				this.calcTotal();
 			},
 			//删除
@@ -186,7 +206,7 @@
 				let checked = true;
 				list.forEach(item=>{
 					if(item.checked === true){
-						total += item.price * item.number;
+						total += item.price * item.quantity;
 					}else if(checked === true){
 						checked = false;
 					}
@@ -201,7 +221,7 @@
 					if(item.checked){
 						sendData.push({
 							attr_val: item.attr_val,
-							number: item.number
+							number: item.quantity
 						})
 					}
 				})

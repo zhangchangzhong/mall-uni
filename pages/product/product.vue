@@ -150,7 +150,7 @@
 						</view>
 					</view>
 				</view>
-				<view v-for="(item,index) in specList" :key="index" class="attr-list">
+<!-- 				<view v-for="(item,index) in specList" :key="index" class="attr-list">
 					<text>{{item.name}}</text>
 					<view class="item-list">
 						<text 
@@ -161,6 +161,25 @@
 							@click="selectSpec(childIndex, childItem.pid)"
 						>
 							{{childItem.name}}
+						</text>
+					</view>
+				</view> -->
+				<view v-if="item.type===0" v-for="(item,index) in productInfo.productAttributeList" :key="index" class="attr-list">
+					<text>{{item.name}}</text>
+					<view class="item-list">
+						<text 
+						v-if="item.inputType ===1"
+							v-for="(childItem, childIndex) in getInputListArr(item.inputList)" 
+							:key="childIndex" class="tit"
+						>
+							{{childItem}}
+						</text>
+						<text 
+						v-else-if="item.inputType ===0"
+						v-for="(childItem, childIndex) in getListInPAValueList(item.id)" 
+						:key="childIndex" class="tit"
+						>
+							{{childItem}}
 						</text>
 					</view>
 				</view>
@@ -178,6 +197,8 @@
 
 <script>
 	import share from '@/components/share';
+	import api from '@/utils/api';
+	
 	export default{
 		components: {
 			share
@@ -265,10 +286,15 @@
 						pid: 2,
 						name: '草木绿',
 					},
-				]
+				],
+				productInfo:{
+					
+				}
 			};
 		},
-		async onLoad(){
+		async onLoad(options){
+			let goodsId = options.goodsId;
+			this.loadData(goodsId);
 			//规格 默认选中第一条
 			this.specList.forEach(item=>{
 				for(let cItem of this.specChildList){
@@ -282,6 +308,13 @@
 			this.shareList = await this.$api.json('shareList');
 		},
 		methods:{
+			//加载商品详情数据
+			async loadData (goodsId) {
+					const res = 	await api.getGoodsDetail({id:goodsId});
+					if(res.code===200){
+					this.productInfo = 	res.data
+					}
+			},
 			//规格弹窗开关
 			toggleSpec() {
 				if(this.specClass === 'show'){
@@ -293,6 +326,24 @@
 					this.specClass = 'show';
 				}
 			},
+			getInputListArr(inputList) {
+			  return inputList.split(',');
+			},
+			//根据属性id获取收工录入属性值
+			getListInPAValueList(productAttributeId) {
+	
+			 let inputList =[];
+			 let productAttributeValue  =	this.productInfo.productAttributeValueList.find(item=>{
+					if(item.productAttributeId===productAttributeId){
+						return item;
+					}
+				});
+			if(productAttributeValue!=null){
+				let value = productAttributeValue.value
+				inputList = value.split(',');
+			}
+			return inputList;
+			},
 			//选择规格
 			selectSpec(index, pid){
 				let list = this.specChildList;
@@ -301,14 +352,16 @@
 						this.$set(item, 'selected', false);
 					}
 				})
-
+// 
 				this.$set(list[index], 'selected', true);
-				//存储已选择
-				this.specSelected.forEach(item=>{
-					if(item.pid === pid){
-						item = list[index];
-					}
-				})
+// 				//存储已选择
+// 				this.specSelected.forEach(item=>{
+// 					if(item.pid === pid){
+// 						item = list[index];
+// 					}
+// 				})
+				this.specSelected = []; 
+				list.forEach(item=>{ if(item.selected === true){ this.specSelected.push(item); } })
 			},
 			//分享
 			share(){

@@ -42,7 +42,7 @@ const api = {
     baseURL: ApiRootUrl
   }),
   // 获得商品的详情
-  getGoodsDetail: (paramObj) => request.get('goods/detail', paramObj, {
+  getGoodsDetail: (paramObj) => request.get('product/getProductDetail', paramObj, {
     baseURL: ApiRootUrl
   }),
   // 新品
