@@ -15,22 +15,22 @@
 		</view>
 		
 		<view class="introduce-section">
-			<text class="title">恒源祥2019春季长袖白色t恤 新款春装</text>
+			<text class="title">{{productInfo.name}}</text>
 			<view class="price-box">
 				<text class="price-tip">¥</text>
-				<text class="price">341.6</text>
-				<text class="m-price">¥488</text>
-				<text class="coupon-tip">7折</text>
+				<text class="price">{{productInfo.price}}</text>
+				<!-- <text class="m-price">¥488</text> -->
+				<!-- <text class="coupon-tip">7折</text> -->
 			</view>
 			<view class="bot-row">
-				<text>销量: 108</text>
-				<text>库存: 4690</text>
-				<text>浏览量: 768</text>
+				<text>销量: {{productInfo.sale}}</text>
+				<text>库存: {{productInfo.stock}}</text>
+				<text>浏览量: 999</text>
 			</view>
 		</view>
 		
 		<!--  分享 -->
-		<view class="share-section" @click="share">
+	<!-- 	<view class="share-section" @click="share">
 			<view class="share-icon">
 				<text class="yticon icon-xingxing"></text>
 				 返
@@ -43,13 +43,13 @@
 			</view>
 			
 		</view>
-		
+		 -->
 		<view class="c-list">
 			<view class="c-row b-b" @click="toggleSpec">
 				<text class="tit">购买类型</text>
 				<view class="con">
 					<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
-						{{sItem.name}}
+						{{sItem.value}}
 					</text>
 				</view>
 				<text class="yticon icon-you"></text>
@@ -102,7 +102,7 @@
 			<view class="d-header">
 				<text>图文详情</text>
 			</view>
-			<rich-text :nodes="desc"></rich-text>
+			<rich-text :nodes="productInfo.detailHtml"></rich-text>
 		</view>
 		
 		<!-- 底部操作菜单 -->
@@ -138,14 +138,14 @@
 			<view class="mask"></view>
 			<view class="layer attr-content" @click.stop="stopPrevent">
 				<view class="a-t">
-					<image src="https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg"></image>
+					<image :src="skuStock.pic?skuStock.pic:'https://gd3.alicdn.com/imgextra/i3/0/O1CN01IiyFQI1UGShoFKt1O_!!0-item_pic.jpg_400x400.jpg'"></image>
 					<view class="right">
-						<text class="price">¥328.00</text>
-						<text class="stock">库存：188件</text>
+						<text class="price">¥{{skuStock.price}}</text>
+						<text class="stock">库存：{{skuStock.stock}}件</text>
 						<view class="selected">
 							已选：
 							<text class="selected-text" v-for="(sItem, sIndex) in specSelected" :key="sIndex">
-								{{sItem.name}}
+								{{sItem.value}}
 							</text>
 						</view>
 					</view>
@@ -167,19 +167,20 @@
 				<view v-if="item.type===0" v-for="(item,index) in productInfo.productAttributeList" :key="index" class="attr-list">
 					<text>{{item.name}}</text>
 					<view class="item-list">
-						<text 
+<!-- 						<text 
 						v-if="item.inputType ===1"
 							v-for="(childItem, childIndex) in getInputListArr(item.inputList)" 
 							:key="childIndex" class="tit"
 						>
 							{{childItem}}
-						</text>
+						</text> -->
 						<text 
-						v-else-if="item.inputType ===0"
-						v-for="(childItem, childIndex) in getListInPAValueList(item.id)" 
+						v-for="(childItem, childIndex) in item.attributeValueList" 
 						:key="childIndex" class="tit"
+						:class="{selected: childItem.selected}"
+						@click="selectSpec(childIndex, childItem,item.attributeValueList)"
 						>
-							{{childItem}}
+							{{childItem.value}}
 						</text>
 					</view>
 				</view>
@@ -289,22 +290,99 @@
 				],
 				productInfo:{
 					
+				},
+				skuStock:{
+					
 				}
 			};
 		},
+// 		computed:{
+// 			productAttributeList:function(){
+// 				let productAttributeList = [];
+// 				if( this.productInfo.productAttributeList !=null){
+// 				 productAttributeList = this.productInfo.productAttributeList;
+// 				 productAttributeList.forEach(item=>{
+// 				 	if(item.type===0){
+// 				 		if(item.inputType ===1){
+// 				 			item.attributeValueList = this.getInputListArr(item);
+// 				 			for(let cItem of item.attributeValueList){
+// 				 				this.$set(cItem, 'selected', true);
+// 				 				// specSelected.push(cItem);
+// 				 				break;
+// 				 			}
+// 				 		}else{
+// 				 			item.attributeValueList = this.getListInPAValueList(item.id);
+// 				 			for(let cItem of item.attributeValueList){
+// 				 				this.$set(cItem, 'selected', true);
+// 				 				// specSelected.push(cItem);
+// 				 				break;
+// 				 			}
+// 				 		}	
+// 				 	}
+// 				 
+// 				 })
+// 				}
+// 				return productAttributeList;
+// 			}
+// 		},
 		async onLoad(options){
 			let goodsId = options.goodsId;
-			this.loadData(goodsId);
+			
+			new Promise((resolve, reject) =>{
+				this.loadData(goodsId).then(()=>{
+					this.productInfo.productAttributeList.forEach(item=>{
+						if(item.type===0){
+							if(item.inputType ===1){
+								item.attributeValueList = this.getInputListArr(item);
+								for(let cItem of item.attributeValueList){
+									this.$set(cItem, 'selected', true);
+									this.specSelected.push(cItem);
+									break;
+								}
+							}else{
+								item.attributeValueList = this.getListInPAValueList(item.id);
+								for(let cItem of item.attributeValueList){
+									this.$set(cItem, 'selected', true);
+									this.specSelected.push(cItem);
+									break;
+								}
+							}	
+						}
+					})
+									//获取当前商品的sku
+					let	skuStockList = this.productInfo.skuStockList;
+					skuStockList.find(item=>{
+					
+							if(this.compareList(item,this.specSelected)){
+								this.skuStock = item;
+							}	
+					
+					
+					});
+					let productImg = {};
+					productImg.src=this.productInfo.pic;
+					this.imgList.unshift(productImg);
+					skuStockList.map(item=>{
+						if(item.pic){
+							let img = {};
+							img.src=item.pic;
+							this.imgList.push(img);
+						}
+						
+					})
+					resolve();
+				});
+			});
 			//规格 默认选中第一条
-			this.specList.forEach(item=>{
-				for(let cItem of this.specChildList){
-					if(cItem.pid === item.id){
-						this.$set(cItem, 'selected', true);
-						this.specSelected.push(cItem);
-						break; //forEach不能使用break
-					}
-				}
-			})
+// 			this.specList.forEach(item=>{
+// 				for(let cItem of this.specChildList){
+// 					if(cItem.pid === item.id){
+// 						this.$set(cItem, 'selected', true);
+// 						this.specSelected.push(cItem);
+// 						break; //forEach不能使用break
+// 					}
+// 				}
+// 			})
 			this.shareList = await this.$api.json('shareList');
 		},
 		methods:{
@@ -326,8 +404,17 @@
 					this.specClass = 'show';
 				}
 			},
-			getInputListArr(inputList) {
-			  return inputList.split(',');
+			getInputListArr(item) {
+				let inputList =item.inputList
+				 let resList =[];
+				 let newInputList =  inputList.split(',');
+				newInputList.forEach(item=>{
+					let newItem = {};
+					newItem.value = item;
+					newItem.productAttributeId =item.productAttributeId;
+					resList.push(newItem)
+				})
+			  return resList;
 			},
 			//根据属性id获取收工录入属性值
 			getListInPAValueList(productAttributeId) {
@@ -337,23 +424,27 @@
 					if(item.productAttributeId===productAttributeId){
 						return item;
 					}
-				});
+			});
 			if(productAttributeValue!=null){
 				let value = productAttributeValue.value
-				inputList = value.split(',');
+				let newInputList = value.split(',');
+				newInputList.forEach(item=>{
+					let	newItem = {};
+					newItem.value = item;
+					newItem.productAttributeId =productAttributeId
+					inputList.push(newItem)
+				})
 			}
 			return inputList;
 			},
 			//选择规格
-			selectSpec(index, pid){
-				let list = this.specChildList;
-				list.forEach(item=>{
-					if(item.pid === pid){
+			selectSpec(index, childItem,attributeValueList){
+				// let list = attributeValueList;
+				attributeValueList.forEach(item=>{
 						this.$set(item, 'selected', false);
-					}
 				})
 // 
-				this.$set(list[index], 'selected', true);
+				this.$set(attributeValueList[index], 'selected', true);
 // 				//存储已选择
 // 				this.specSelected.forEach(item=>{
 // 					if(item.pid === pid){
@@ -361,7 +452,51 @@
 // 					}
 // 				})
 				this.specSelected = []; 
-				list.forEach(item=>{ if(item.selected === true){ this.specSelected.push(item); } })
+				if( this.productInfo.productAttributeList !=null){
+					let productAttributeList = this.productInfo.productAttributeList;
+					productAttributeList.forEach(item=>{
+						if(item.type===0){
+							for(let cItem of item.attributeValueList){
+								if(cItem.selected === true){ this.specSelected.push(cItem); }
+							}
+						}
+					})
+				}
+				//获取当前商品的sku
+				let	skuStockList = this.productInfo.skuStockList;
+				skuStockList.find(item=>{
+
+						if(this.compareList(item,this.specSelected)){
+							this.skuStock = item;
+						}	
+
+
+				});
+
+			},
+			compareList(skuStock,specSelectedList){
+				let skuStockList = [];
+				if(skuStock.sp1!=null){
+					skuStockList.push(skuStock.sp1);
+				}
+				if(skuStock.sp2!=null){
+					skuStockList.push(skuStock.sp2);
+				}
+				if(skuStock.sp3!=null){
+					skuStockList.push(skuStock.sp3);
+				}
+				let resBoolean = true
+				for(let i of skuStockList){
+					let specItem=	specSelectedList.find(item=>{
+							if(item.value===i){
+								return true;
+							}
+					});
+					if(!specItem){
+						resBoolean = false;
+					}
+				}
+				return resBoolean;
 			},
 			//分享
 			share(){
