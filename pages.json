@@ -5,7 +5,7 @@
 			"path" : "pages/index/index",
 			"style" : {
 				// #ifdef MP 
-				"navigationBarTitleText" : "Dloud商城",
+				"navigationBarTitleText" : "Zmall商城",
 				//"navigationStyle": "custom",
 				// #endif 
 				"app-plus": {
@@ -110,16 +110,6 @@
 					}
 				}
             }
-        },{
-            "path" : "pages/detail/detail",
-            "style" : {
-                "navigationBarTitleText" : "",
-                "app-plus" : {
-                    "titleNView" : {
-                        "type" : "transparent"
-                    }
-                }
-            }
         },
 		{
 			"path": "pages/public/reg",
@@ -156,8 +146,27 @@
 			"style" : {
 			"navigationBarTitleText": "订单详情"
 			}
+		},
+		{
+			"path": "pages/category/category",
+			"style" : {
+			"navigationBarTitleText": "商品分类"
+			}
+		},
+		{
+			"path": "pages/ucenter/address",
+			"style" : {
+			"navigationBarTitleText": "地址管理"
+			}
+		},
+		{
+			"path": "pages/ucenter/addressAdd",
+			"style" : {
+			"navigationBarTitleText": "添加地址"
+			}
 		}
     ],
+	
 	 "globalStyle" : {
 	    "navigationBarTextStyle" : "black",
 	    "navigationBarTitleText" : "uni-app",
@@ -176,6 +185,12 @@
 	            "selectedIconPath" : "static/tab-home-current.png",
 	            "text" : "首页"
 	        },
+			  {
+			    "pagePath" : "pages/category/category",
+			    "iconPath" : "static/category.png",
+			    "selectedIconPath" : "static/category-on.png",
+			    "text" : "分类"
+			},
 	        {
 	            "pagePath" : "pages/cart/cart",
 	            "iconPath" : "static/tab-cart.png",

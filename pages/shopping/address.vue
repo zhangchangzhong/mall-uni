@@ -60,23 +60,16 @@ export default {
       // console.log('选中某个地址', event);
       try {
         // 更新storage，下单页可以获取到新的地址
-        wx.setStorageSync('addressId', event.currentTarget.dataset.addressId);
+        // wx.setStorageSync('addressId', event.currentTarget.dataset.addressId);
       } catch (e) {
       }
       // 回到下单页
-      wx.redirectTo({
-        url: '../shopping/checkout'
-      })
+//       wx.redirectTo({
+//         url: '../shopping/checkout'
+//       })
     }
   },
-  // 原生的分享功能
-  onShareAppMessage: function () {
-    return {
-      title: 'xbyjShop',
-      desc: '仿网易严选小程序商城',
-      path: '/pages/shopping/address'
-    }
-  }
+
 }
 </script>
 

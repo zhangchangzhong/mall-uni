@@ -5,11 +5,11 @@
           :data-address-id="item.id" :data-index="index">
             <view class="l">
                 <view class="name">{{item.name}}</view>
-                <view class="default" v-if="item.is_default">默认</view>
+                <view class="default" v-if="item.defaultStatus===1">默认</view>
             </view>
             <view class="c">
-                <view class="mobile">{{item.mobile}}</view>
-                <view class="address">{{item.full_region + item.address}}</view>
+                <view class="mobile">{{item.phoneNumber}}</view>
+                <view class="address">{{item.province + item.city + item.region + item.detailAddress}}</view>
             </view>
             <view class="r">
                 <image @click.stop="deleteAddress" :data-address-id="item.id" class="del" src="/static/images/del-address.png"/>
@@ -20,13 +20,13 @@
       <image class="icon" src="http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/noAddress-26d570cefa.png"/>
       <text class="text">收货地址在哪里</text>
     </view>
-    <view class="add-address"  @click="addressAddOrUpdate" data-address-id="0">新建</view>
+    <view class="add-address"  @click="addAddress()" data-address-id="0">新建</view>
 </view>
 </template>
 
 <script>
 import api from '@/utils/api'
-import wx from 'wx'
+// import wx from 'wx'
 
 export default {
   data () {
@@ -40,20 +40,26 @@ export default {
     ])
   },
   methods: {
+		    // 添加收获地址
+		addAddress () {
+		  uni.navigateTo({
+		    url: '/pages/ucenter/addressAdd'
+		  })
+		},
     // 获取地址信息
     async getAddressList () {
       const res = await api.getAddressList();
       // console.log('地址管理,请求结果', res);
-      if (res.errno === 0) {
+      if (res.code === 200) {
         this.addressList = res.data;
       }
     },
     // 点击修改，或者点击底部“新建”
     addressAddOrUpdate (event) {
       // console.log('点击修改/新建地址', event)
-      wx.navigateTo({
-        url: '../ucenter/addressAdd?id=' + event.currentTarget.dataset.addressId
-      })
+//       wx.navigateTo({
+//         url: '../ucenter/addressAdd?id=' + event.currentTarget.dataset.addressId
+//       })
     },
     // 点击删除图标
     deleteAddress (event) {
@@ -74,14 +80,6 @@ export default {
         }
       })
       return false;
-    }
-  },
-  // 原生的分享功能
-  onShareAppMessage: function () {
-    return {
-      title: 'xbyjShop',
-      desc: '仿网易严选小程序商城',
-      path: '/pages/ucenter/address'
     }
   }
 }
@@ -104,7 +102,7 @@ page{
     background: #fff url(http://yanxuan.nosdn.127.net/hxm/yanxuan-wap/p/20161201/style/img/icon-normal/address-bg-bd30f2bfeb.png) 0 0 repeat-x;
     background-size: auto 10.5rpx;
     margin-bottom: 90rpx;
-    width: 96%;
+    width: 100%;
 }
 
 .address-list .item{

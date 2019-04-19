@@ -17,7 +17,7 @@
 				<view v-for="(item, index) in data.episodeList" :key="index"
 					:class="{current: currentEpd===item}"
 					@click="changeEpd(index)"
-				>
+				>	
 					{{item}}
 				</view>
 			</scroll-view>

@@ -2,6 +2,8 @@ import request from './request'
 
 // const ApiRootUrl = 'http://127.0.0.1:8360/api/'
 const ApiRootUrl = 'http://10.122.1.77:8085/'
+// const ApiRootUrl = 'http://182.61.39.189:8085/'
+
 const api = {
   // 首页数据接口
   // getIndexData: (r) => request.get('index/index', null, {
@@ -38,7 +40,7 @@ const api = {
     baseURL: ApiRootUrl
   }),
   // 获得分类数据
-  getGoodsCategory: (paramObj) => request.get('goods/category', paramObj, {
+  getGoodsCategory: (paramObj) => request.get('productCategory/list/withChildren', paramObj, {
     baseURL: ApiRootUrl
   }),
   // 获得商品的详情
@@ -146,7 +148,7 @@ const api = {
     baseURL: ApiRootUrl
   }),
   // 收货地址列表
-  getAddressList: (r) => request.get('address/list', null, {
+  getAddressList: (r) => request.get('member/address/list', null, {
     baseURL: ApiRootUrl
   }),
   // 收货地址详情

@@ -45,7 +45,6 @@
 
 <script>
 import api from '@/utils/api'
-import wx from 'wx'
 import util from '@/utils/util'
 
 export default {
@@ -248,9 +247,9 @@ export default {
     },
     // 点击底部“取消按钮”退出本页面
     cancelAddress () {
-      wx.navigateTo({
-        url: '../ucenter/address'
-      })
+//       wx.navigateTo({
+//         url: '../ucenter/address'
+//       })
     },
     // 点击底部“保存按钮”保存地址
     async saveAddress () {
@@ -284,20 +283,20 @@ export default {
       });
       // console.log('保存地址,请求结果', res);
       if (res.errno === 0) {
-        wx.navigateTo({
-          url: '../ucenter/address'
-        })
+//         wx.navigateTo({
+//           url: '../ucenter/address'
+//         })
       }
     }
   },
   // 原生的分享功能
-  onShareAppMessage: function () {
-    return {
-      title: 'xbyjShop',
-      desc: '仿网易严选小程序商城',
-      path: '/pages/ucenter/addressAdd'
-    }
-  }
+//   onShareAppMessage: function () {
+//     return {
+//       title: 'xbyjShop',
+//       desc: '仿网易严选小程序商城',
+//       path: '/pages/ucenter/addressAdd'
+//     }
+//   }
 }
 </script>
 

@@ -15,7 +15,7 @@
 			<view class="titleNview-background" :style="{backgroundColor:titleNViewBackground}"></view>
 			<swiper class="carousel" circular @change="swiperChange">
 				<swiper-item v-for="(item, index) in carouselList" :key="index" class="carousel-item" @click="navToDetailPage(item.id)">
-					<image :src="item.src" />
+					<image :src="item.pic" />
 				</swiper-item>
 			</swiper>
 			<!-- 自定义swiper指示器 -->
@@ -27,7 +27,7 @@
 		</view>
 		<!-- 分类 -->
 		<view class="cate-section">
-			<view class="cate-item">
+			<view class="cate-item" @click="navToCategoryPage()">
 				<image src="/static/temp/c3.png"></image>
 				<text>环球美食</text>
 			</view>
@@ -54,7 +54,7 @@
 		</view>
 		
 		<!-- 秒杀楼层 -->
-		<view class="seckill-section m-t">
+	<!-- 	<view class="seckill-section m-t">
 			<view class="s-header">
 				<image class="s-img" src="/static/temp/secskill-img.jpg" mode="widthFix"></image>
 				<text class="tip">8点场</text>
@@ -76,10 +76,10 @@
 					</view>
 				</view>
 			</scroll-view>
-		</view>
+		</view> -->
 		
 		<!-- 团购楼层 -->
-		<view class="f-header m-t">
+		<!-- <view class="f-header m-t">
 			<image src="/static/temp/h1.png"></image>
 			<view class="tit-box">
 				<text class="tit">精品团购</text>
@@ -132,7 +132,7 @@
 				</swiper-item>
 
 			</swiper>
-		</view>
+		</view> -->
 		
 		
 		
@@ -140,7 +140,7 @@
 		<view class="f-header m-t">
 			<image src="/static/temp/h1.png"></image>
 			<view class="tit-box">
-				<text class="tit">分类精选</text>
+				<text class="tit">商品精选</text>
 				<text class="tit2">Competitive Products For You</text>
 			</view>
 			<text class="yticon icon-you"></text>
@@ -156,8 +156,8 @@
 						class="floor-item"
 						@click="navToDetailPage(item.id)"
 					>
-						<image :src="item.image" mode="aspectFill"></image>
-						<text class="title clamp">{{item.title}}</text>
+						<image :src="item.pic" mode="aspectFill"></image>
+						<text class="title clamp">{{item.name}}</text>
 						<text class="price">￥{{item.price}}</text>
 					</view>
 					<view class="more">
@@ -167,7 +167,7 @@
 				</view>
 			</scroll-view>
 		</view>
-		<view class="hot-floor">
+		<!-- <view class="hot-floor">
 			<view class="floor-img-box">
 				<image class="floor-img" src="https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1553409984228&di=dee176242038c2d545b7690b303d65ea&imgtype=0&src=http%3A%2F%2Fhbimg.b0.upaiyun.com%2F5ef4da9f17faaf4612f0d5046f4161e556e9bbcfdb5b-rHjf00_fw658" mode="scaleToFill"></image>
 			</view>
@@ -211,7 +211,7 @@
 				</view>
 			</scroll-view>
 		</view>
-
+ -->
 		<!-- 猜你喜欢 -->
 		<view class="f-header m-t">
 			<image src="/static/temp/h1.png"></image>
@@ -229,9 +229,9 @@
 				@click="navToDetailPage(item.id)"
 			>
 				<view class="image-wrapper">
-					<image :src="item.image" mode="aspectFill"></image>
+					<image :src="item.pic" mode="aspectFill"></image>
 				</view>
-				<text class="title clamp">{{item.title}}</text>
+				<text class="title clamp">{{item.name}}</text>
 				<text class="price">￥{{item.price}}</text>
 			</view>
 		</view>
@@ -241,7 +241,7 @@
 </template>
 
 <script>
-
+	import api from '@/utils/api';
 	export default {
 
 		data() {
@@ -263,13 +263,19 @@
 			 * 分次请求未作整合
 			 */
 			async loadData() {
-				let carouselList = await this.$api.json('carouselList');
-				this.titleNViewBackground = carouselList[0].background;
-				this.swiperLength = carouselList.length;
-				this.carouselList = carouselList;
+				const res = 	await api.getIndexData();
+				if(res.code===200){
+				this.carouselList = res.data.advertiseList;
+				this.swiperLength = this.carouselList.length;
+				this.titleNViewBackground = this.carouselList[0].pic;
+				this.goodsList = res.data.hotProductList;
+				}
+				// let carouselList = await this.$api.json('carouselList');
+				// this.titleNViewBackground = carouselList[0].background;
+				// this.carouselList = carouselList;
 				
-				let goodsList = await this.$api.json('goodsList');
-				this.goodsList = goodsList || [];
+				// let goodsList = await this.$api.json('goodsList');
+				// this.goodsList = goodsList || [];
 			},
 			//轮播图切换修改背景色
 			swiperChange(e) {
@@ -280,6 +286,14 @@
 			//详情页
 			navToDetailPage(goodsId) {
 				let  url =  '/pages/product/product?goodsId='+28;
+				uni.navigateTo({
+					url:url
+					//url: '/pages/detail/detail'
+				})
+			},
+			//分类页
+			navToCategoryPage() {
+				let  url =  '/pages/category/category';
 				uni.navigateTo({
 					url:url
 					//url: '/pages/detail/detail'

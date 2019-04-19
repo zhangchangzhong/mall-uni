@@ -2,6 +2,7 @@ import http from '@/common/vmeitime-http/interface.js'
 
 //设置baseUrl
 http.config.baseUrl = "http://10.122.1.77:8085/"
+// http.config.baseUrl = "http://182.61.39.189:8085/"
 	//设置请求前拦截器
 http.interceptor.request = (config) => {
 		//添加通用参数
